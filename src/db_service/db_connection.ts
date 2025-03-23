@@ -4,11 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const pool = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    port: process.env.PORT ? parseInt(process.env.PORT) : undefined
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : undefined
 });
 
 export async function testConnection() {

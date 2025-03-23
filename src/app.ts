@@ -1,11 +1,15 @@
 import express from 'express';
-import userservice from './routes/userservice';
 import {testConnection} from './db_service/db_connection';
-
+import { sequelizeAuth } from './other_services/sequelizeConnection';
+import userservice from './routes/usersRoute';
+import authRoute from './routes/authRoute';
 const app = express();
-testConnection();
-app.use(userservice);
+app.use(express.json());
 
+//testConnection();
+//sequelizeAuth();
+app.use(userservice);
+app.use(authRoute);
 
 
 app.listen(3000, () => {
