@@ -62,32 +62,28 @@ router.post("/auth/login", async (req, res) => {
     }
 }); 
 
+
 export async function loginUser(email: string, password: string) {
     try {
-        
-        const excistingUser = await Users.findOne({where: {email}});
-        if(!excistingUser){
-            throw new Error("User does not exist");
-        }
-
-        const isPasswordCorrect = await bcrypt.compare(password, excistingUser.password);
-        if(!isPasswordCorrect){
-            throw new Error("Password is incorrect");
-        }
-
-        const user: any = await Users.findOne({
-            where: {email},
-            attributes: ['id', 'name', 'email'],
-        
-        });
-
-        const userData = user.get();
-        console.log("User data: ", userData);
-
-        return userData;
+      const existingUser = await Users.findOne({ where: { email } });
+  
+      if (!existingUser) {
+        throw new Error("User does not exist");
+      }
+  
+      const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
+      if (!isPasswordCorrect) {
+        throw new Error("Password is incorrect");
+      }
+  
+      const { id, name } = existingUser;
+  
+      return { id, name, email }; // clean and typed
     } catch (error) {
-        console.log("Error logging in: ", error);
+      console.log("Error logging in: ", error);
+      throw error;
     }
-}
+  }
+  
 
 export default router;
