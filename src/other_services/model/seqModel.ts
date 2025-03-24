@@ -1,7 +1,15 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../sequelizeConnection';
 
-const Users = sequelize.define('User', {
+export class Users extends Model {
+  public id!: number;
+  public name!: string;
+  public email!: string;
+  public password!: string;
+}
+
+Users.init
+({
   id: {
     type: DataTypes.INTEGER.UNSIGNED,
     autoIncrement: true,
@@ -17,13 +25,13 @@ const Users = sequelize.define('User', {
     unique: true
   },
   password: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(255),
     allowNull: false
   }
 }, {
-  tableName: 'users',
-  timestamps: false,
-  updatedAt: false
+    tableName: 'users',
+    sequelize,
+    timestamps: false
 });
 
 export default Users;
